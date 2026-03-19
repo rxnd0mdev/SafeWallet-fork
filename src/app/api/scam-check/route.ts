@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { callAI, AIError } from "@/lib/ai/client";
 import { SCAM_DETECTION_PROMPT, buildScamPrompt } from "@/lib/ai/prompts";
-import { checkQuota, incrementUsage } from "@/lib/rate-limit";
 import { checkAndAwardBadges } from "@/lib/gamification";
 import { sanitizeScamInput } from "@/lib/sanitize";
 import { parseAIResponse, ScamAnalysisSchema } from "@/lib/ai/schemas";

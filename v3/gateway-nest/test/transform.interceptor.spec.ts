@@ -1,10 +1,9 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { TransformInterceptor } from '../src/common/interceptors/transform.interceptor';
 import { ExecutionContext, CallHandler } from '@nestjs/common';
 import { of } from 'rxjs';
 
 describe('TransformInterceptor', () => {
-  let interceptor: TransformInterceptor<any>;
+  let interceptor: TransformInterceptor<Record<string, unknown>>;
 
   beforeEach(() => {
     interceptor = new TransformInterceptor();
@@ -16,7 +15,7 @@ describe('TransformInterceptor', () => {
 
   it('should transform response correctly', (done) => {
     const mockData = { id: 1, name: 'Test' };
-    const mockCallHandler: CallHandler = {
+    const mockCallHandler: CallHandler<Record<string, unknown>> = {
       handle: () => of(mockData),
     };
 

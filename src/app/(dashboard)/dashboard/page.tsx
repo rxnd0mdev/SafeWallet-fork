@@ -2,14 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useLocale } from "@/components/language-provider";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import {
   Scan,
   AlertTriangle,
-  TrendingUp,
   Award,
   ArrowRight,
   Sparkles,
@@ -48,7 +47,6 @@ export default function DashboardPage() {
   }
 
   const hasScans = data?.latest_scan !== null;
-  const scanQuota = data?.quota.scans ?? { used: 0, limit: 3 };
   const scamQuota = data?.quota.scam_checks ?? { used: 0, limit: 5 };
   const healthScore = data?.latest_scan?.health_score ?? 0;
   

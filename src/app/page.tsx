@@ -26,8 +26,6 @@ function LandingPageContent() {
   const shieldRef = useRef<HTMLDivElement>(null);
   
   // Ref untuk Bento Cards
-  const cardsContainerRef = useRef<HTMLDivElement>(null);
-
   // === FASE BARU: THE STORYTELLING ===
   const sinkholeSectionRef = useRef<HTMLElement>(null);
   const debtItemsRef = useRef<HTMLDivElement>(null);
@@ -40,7 +38,6 @@ function LandingPageContent() {
   // === FASE 17: SUPREME VISUAL ADDITIONS ===
   const orbitSectionRef = useRef<HTMLElement>(null);
   const eyeSectionRef = useRef<HTMLElement>(null);
-  const prismRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Client-Side Only GSAP Engine Injection
@@ -452,8 +449,8 @@ function LandingPageContent() {
 
         }, containerRef); // Tutup GSAP React Scope
 
-      } catch (err) {
-        console.error("GSAP Spatio-Temporal Matrix Failed to Load: ", err);
+      } catch (error) {
+        console.error("GSAP Spatio-Temporal Matrix Failed to Load: ", error);
       }
     })();
 
@@ -475,7 +472,7 @@ function LandingPageContent() {
         duration: 0.5,
         ease: "back.out(2)" 
       });
-    } catch(err) {}
+    } catch {}
   };
 
   const handleCTALeave = async (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -489,7 +486,7 @@ function LandingPageContent() {
         duration: 0.5,
         ease: "back.out(2)"
       });
-    } catch(err) {}
+    } catch {}
   };
 
   const featureItems = [

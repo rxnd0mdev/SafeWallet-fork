@@ -23,13 +23,13 @@ export function GsapDataWave() {
       });
 
       // 2. Continuous Wave Engine using Trigonometry (GSAP Ticker)
-      const dots = gsap.utils.toArray(".data-dot");
+      const dots = gsap.utils.toArray<HTMLElement>(".data-dot");
       
       let time = 0;
       const onTick = () => {
         time += 0.05; // Speed of the wave
         
-        dots.forEach((dot: any, i) => {
+        dots.forEach((dot, i) => {
           const col = i % cols;
           const row = Math.floor(i / cols);
           

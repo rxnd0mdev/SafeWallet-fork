@@ -5,10 +5,10 @@ import { ScanController } from '../src/scan.controller';
 import { ScanService } from '../src/scan.service';
 
 describe('AppModule', () => {
-  let module: TestingModule;
+  let testingModule: TestingModule;
 
   beforeEach(async () => {
-    module = await Test.createTestingModule({
+    testingModule = await Test.createTestingModule({
       imports: [
         ConfigModule.forRoot({
           isGlobal: true,
@@ -25,20 +25,20 @@ describe('AppModule', () => {
   });
 
   afterEach(async () => {
-    await module.close();
+    await testingModule.close();
   });
 
   it('should be defined', () => {
-    expect(module).toBeDefined();
+    expect(testingModule).toBeDefined();
   });
 
   it('should provide ScanController', () => {
-    const controller = module.get(ScanController);
+    const controller = testingModule.get(ScanController);
     expect(controller).toBeDefined();
   });
 
   it('should provide ScanService', () => {
-    const service = module.get(ScanService);
+    const service = testingModule.get(ScanService);
     expect(service).toBeDefined();
   });
 });

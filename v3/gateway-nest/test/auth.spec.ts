@@ -7,7 +7,7 @@ describe('JwtStrategy', () => {
   let strategy: JwtStrategy;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const testingModule: TestingModule = await Test.createTestingModule({
       providers: [
         JwtStrategy,
         {
@@ -19,7 +19,7 @@ describe('JwtStrategy', () => {
       ],
     }).compile();
 
-    strategy = module.get<JwtStrategy>(JwtStrategy);
+    strategy = testingModule.get<JwtStrategy>(JwtStrategy);
   });
 
   it('should be defined', () => {

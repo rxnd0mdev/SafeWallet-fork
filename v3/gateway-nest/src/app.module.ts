@@ -30,7 +30,7 @@ import { TerminusModule } from '@nestjs/terminus';
         storage: new ThrottlerStorageRedisService({
           host: config.get('REDIS_HOST'),
           port: config.get('REDIS_PORT'),
-        }) as any,
+        }),
       }),
     }),
     BullModule.forRootAsync({

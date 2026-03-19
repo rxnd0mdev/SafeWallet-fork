@@ -102,7 +102,7 @@ export function parseAIResponse<T>(
   let parsed: unknown;
   try {
     parsed = JSON.parse(cleaned);
-  } catch (e1) {
+  } catch {
     console.warn(`[${context}] JSON parse failed, attempting repair...`);
     try {
       cleaned = repairJSON(cleaned);

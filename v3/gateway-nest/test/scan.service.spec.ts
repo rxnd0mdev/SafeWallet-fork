@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ScanService } from '../src/scan.service';
 import { getQueueToken } from '@nestjs/bull';
+import type { Queue } from 'bull';
 import axios from 'axios';
 
 jest.mock('axios');
@@ -8,14 +9,15 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('ScanService', () => {
   let service: ScanService;
-  let queue: any;
+  let queue: Pick<Queue, 'add'>;
+  let testingModule: TestingModule;
 
   beforeEach(async () => {
     queue = {
       add: jest.fn().mockResolvedValue({ id: 'job-123' }),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    testingModule = await Test.createTestingModule({
       providers: [
         ScanService,
         {
@@ -25,7 +27,11 @@ describe('ScanService', () => {
       ],
     }).compile();
 
-    service = module.get<ScanService>(ScanService);
+    service = testingModule.get<ScanService>(ScanService);
+  });
+
+  afterEach(async () => {
+    await testingModule.close();
   });
 
   it('should be defined', () => {
@@ -36,7 +42,7 @@ describe('ScanService', () => {
     const mockFile = {
       buffer: Buffer.from('test file content'),
       originalname: 'test.png',
-    } as any;
+    } as Express.Multer.File;
 
     mockedAxios.post.mockResolvedValue({ data: { hash: 'mocked-hash' } });
 
@@ -52,7 +58,7 @@ describe('ScanService', () => {
     const mockFile = {
       buffer: Buffer.from('test file content'),
       originalname: 'test.png',
-    } as any;
+    } as Express.Multer.File;
 
     mockedAxios.post.mockRejectedValue(new Error('Security failed'));
 

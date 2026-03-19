@@ -3,6 +3,13 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 
+type JwtPayload = {
+  sub: string;
+  email: string;
+  tenantId?: string;
+  amr?: string[];
+};
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(configService: ConfigService) {
@@ -13,7 +20,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: any) {
+  async validate(payload: JwtPayload) {
     // Check for MFA (TOTP) in AMR (Authentication Method Reference)
     const isMfaAuthenticated = payload.amr?.includes('mfa') || payload.amr?.includes('totp');
     

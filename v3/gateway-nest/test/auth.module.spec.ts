@@ -1,16 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthModule } from '../src/auth/auth.module';
-import { JwtModule } from '@nestjs/jwt';
-import { PassportModule } from '@nestjs/passport';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 
 import { JwtStrategy } from '../src/auth/jwt.strategy';
 
 describe('AuthModule', () => {
-  let module: TestingModule;
+  let testingModule: TestingModule;
 
   beforeEach(async () => {
-    module = await Test.createTestingModule({
+    testingModule = await Test.createTestingModule({
       imports: [
         ConfigModule.forRoot({
           isGlobal: true,
@@ -22,11 +20,11 @@ describe('AuthModule', () => {
   });
 
   it('should be defined', () => {
-    expect(module).toBeDefined();
+    expect(testingModule).toBeDefined();
   });
 
   it('should provide JwtStrategy', () => {
-    const strategy = module.get(JwtStrategy);
+    const strategy = testingModule.get(JwtStrategy);
     expect(strategy).toBeDefined();
   });
 });

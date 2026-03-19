@@ -1,4 +1,3 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { HttpExceptionFilter } from '../src/common/filters/http-exception.filter';
 import { HttpException, HttpStatus, ArgumentsHost } from '@nestjs/common';
 import * as Sentry from '@sentry/nestjs';

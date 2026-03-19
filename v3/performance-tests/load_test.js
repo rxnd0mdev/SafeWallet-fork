@@ -40,7 +40,7 @@ export let options = {
   },
 };
 
-export default function () {
+export default function loadTest() {
   const params = {
     headers: {
       'Content-Type': 'application/json',

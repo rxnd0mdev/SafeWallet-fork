@@ -17,7 +17,7 @@ export type AuditAction =
 export async function logAudit(
   userId: string,
   action: AuditAction,
-  details: Record<string, any> = {},
+  details: Record<string, unknown> = {},
   status: "SUCCESS" | "FAILED" = "SUCCESS"
 ) {
   const requestId = crypto.randomUUID();

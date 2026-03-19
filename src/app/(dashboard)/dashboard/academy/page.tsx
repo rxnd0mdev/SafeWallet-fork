@@ -111,7 +111,7 @@ export default function AcademyPage() {
                 Berbeda dengan pinjaman bank, aplikasi pinjol dan paylater sering membebankan biaya secara harian yang jika ditotal bisa mencapai <span className="text-red-400 font-bold">24% - 36% per tahun!</span>
               </p>
               <p>
-                Utang Rp 5.000.000 dengan bunga 2% per bulan akan membengkak tanpa disadari, memicu siklus "gali lubang tutup lubang".
+                Utang Rp 5.000.000 dengan bunga 2% per bulan akan membengkak tanpa disadari, memicu siklus &quot;gali lubang tutup lubang&quot;.
               </p>
             </div>
             <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 bg-[#0B0A08] group-hover:border-[#3323D2]/30 transition-colors cursor-pointer">
@@ -190,7 +190,7 @@ export default function AcademyPage() {
             ) : (
               <>
                 <CheckCircle2 className="mr-3 h-6 w-6" />
-                {isEnglish ? "I Commit and Unlock Access" : "Saya Berkomitmen & Buka Kunci"}
+                {isEnglish ? "I Commit and Unlock Access" : "Saya Berkomitmen &amp; Buka Kunci"}
               </>
             )}
           </Button>
