@@ -1,9 +1,20 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from main import process_ocr_job
+from main import process_ocr_job, redact_pii
 import os
 
 class TestWorker(unittest.TestCase):
+    def test_redact_pii(self):
+        sample_text = "Nama: John Doe, Email: john.doe@example.com, Phone: +6281234567890, NIK: 1234567890123456"
+        redacted = redact_pii(sample_text)
+        
+        self.assertIn("[EMAIL_REDACTED]", redacted)
+        self.assertIn("[PHONE_REDACTED]", redacted)
+        self.assertIn("[ID_REDACTED]", redacted)
+        self.assertNotIn("john.doe@example.com", redacted)
+        self.assertNotIn("+6281234567890", redacted)
+        self.assertNotIn("1234567890123456", redacted)
+
     @patch('main.requests.post')
     @patch('main.pytesseract.image_to_string')
     @patch('main.Image.open')

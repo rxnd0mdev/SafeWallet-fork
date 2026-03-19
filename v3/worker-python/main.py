@@ -1,5 +1,6 @@
 import os
 import io
+import re
 import requests
 import pytesseract
 from PIL import Image
@@ -53,14 +54,33 @@ async def create_task(user_id: str, file: UploadFile = File(...)):
     )
     return JobResponse(job_id=job.get_id(), status="queued")
 
+def redact_pii(text: str) -> str:
+    """
+    Enhanced PII Redaction using Regex.
+    Filters: Email, Phone Numbers (ID format), and NIK/ID numbers.
+    """
+    # 1. Redact Emails
+    text = re.sub(r'[\w\.-]+@[\w\.-]+\.\w+', '[EMAIL_REDACTED]', text)
+    
+    # 2. Redact ID Phone Numbers (+62 or 08xx)
+    text = re.sub(r'(\+62|08)[0-9]{9,12}', '[PHONE_REDACTED]', text)
+    
+    # 3. Redact NIK (16 digits)
+    text = re.sub(r'\b[0-9]{16}\b', '[ID_REDACTED]', text)
+    
+    # 4. Keyword based redaction
+    text = text.replace("NIK", "ID_LABEL")
+    
+    return text
+
 def process_ocr_job(user_id, file_content, file_name):
     try:
         # 1. OCR
         image = Image.open(io.BytesIO(bytes.fromhex(file_content)))
         text = pytesseract.image_to_string(image)
         
-        # 2. Basic PII Redaction
-        sanitized = text.replace("NIK", "___ID___")
+        # 2. Enhanced PII Redaction
+        sanitized = redact_pii(text)
         
         # 3. Encryption via Rust Security Module
         enc_res = requests.post(
