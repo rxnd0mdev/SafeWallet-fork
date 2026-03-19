@@ -2,14 +2,17 @@ import Link from "next/link";
 import { Shield } from "lucide-react";
 import { LanguageProvider } from "@/components/language-provider";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { getRequestLocale } from "@/i18n/server";
 
-export default function AuthLayout({
+export default async function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getRequestLocale();
+
   return (
-    <LanguageProvider>
+    <LanguageProvider initialLocale={locale}>
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-t from-[#1c1438] to-[#0B0A08] p-4 font-sans text-white selection:bg-[#F2A971]/30">
         <div className="absolute top-8 left-8 hidden md:block">
           <Link href="/" className="flex items-center gap-3 group">

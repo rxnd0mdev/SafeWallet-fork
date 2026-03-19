@@ -8,25 +8,18 @@ export const messages = {
 
 export type Locale = keyof typeof messages;
 export type Messages = (typeof messages)[Locale];
+export const DEFAULT_LOCALE: Locale = "id";
+export const LANGUAGE_STORAGE_KEY = "safewallet.locale";
+export const LANGUAGE_COOKIE_KEY = "safewallet-locale";
 
 export function isSupportedLocale(value: string | null | undefined): value is Locale {
   return value === "id" || value === "en";
 }
 
-export function detectBrowserLocale(): Locale {
-  if (typeof navigator === "undefined") {
-    return "id";
-  }
+export function normalizeLocale(value: string | null | undefined): Locale {
+  return isSupportedLocale(value) ? value : DEFAULT_LOCALE;
+}
 
-  const candidates = [...(navigator.languages ?? []), navigator.language].filter(
-    Boolean
-  ) as string[];
-
-  for (const candidate of candidates) {
-    const normalized = candidate.toLowerCase();
-    if (normalized.startsWith("en")) return "en";
-    if (normalized.startsWith("id")) return "id";
-  }
-
-  return "id";
+export function getMessages(locale: Locale): Messages {
+  return messages[locale];
 }

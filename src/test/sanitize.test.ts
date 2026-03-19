@@ -57,4 +57,20 @@ describe('sanitizeAIInput', () => {
     expect(sanitized).toContain('___IP_REDACTED___');
     expect(sanitized).not.toContain('192.168.1.1');
   });
+
+  it('should redact English contact labels defensively', () => {
+    const input = 'Phone: +1 202-555-0147\nEmail: jane@example.com';
+    const { sanitized, blocked } = sanitizeAIInput(input);
+    expect(sanitized).toContain('Phone: ___CONTACT_REDACTED___');
+    expect(sanitized).toContain('Email: ___CONTACT_REDACTED___');
+    expect(blocked).toBe(false);
+  });
+
+  it('should redact common English address markers with abbreviations', () => {
+    const input = 'Deliver to 18 Cedar Rd., Springfield';
+    const { sanitized, blocked } = sanitizeAIInput(input);
+    expect(sanitized).toContain('___ADDRESS_REDACTED___');
+    expect(sanitized).not.toContain('18 Cedar Rd.');
+    expect(blocked).toBe(false);
+  });
 });

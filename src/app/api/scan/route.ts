@@ -175,7 +175,24 @@ export async function POST(request: Request) {
       );
     }
 
-    const { sanitized: cleanOcrText } = sanitizeAIInput(ocrText, 5000);
+    const { sanitized: cleanOcrText, blocked: scanInputBlocked } = sanitizeAIInput(
+      ocrText,
+      5000
+    );
+
+    if (scanInputBlocked) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: "PII_REDACTION_REQUIRED",
+            message:
+              "Dokumen masih mengandung data pribadi yang belum dapat disamarkan dengan aman. Hapus nama, alamat, email, nomor telepon, dan nomor identitas lalu coba lagi.",
+          },
+        } satisfies ApiError,
+        { status: 422 }
+      );
+    }
 
     // 6. Get user income (non-blocking)
     let income = monthlyIncome;

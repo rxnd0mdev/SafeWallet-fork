@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { callAI, AIError } from "@/lib/ai/client";
 import { SCAM_DETECTION_PROMPT, buildScamPrompt } from "@/lib/ai/prompts";
 import { checkAndAwardBadges } from "@/lib/gamification";
-import { sanitizeScamInput } from "@/lib/sanitize";
+import { sanitizeAIInput, sanitizeScamInput } from "@/lib/sanitize";
 import { parseAIResponse, ScamAnalysisSchema } from "@/lib/ai/schemas";
 import { encrypt } from "@/lib/encryption";
 import { generateIntegrityHash, recordOnBlockchain } from "@/lib/blockchain";
@@ -86,7 +86,26 @@ export async function POST(request: Request) {
     }
 
     // Sanitize input
-    const { sanitized: cleanContent } = sanitizeScamInput(content);
+    const { sanitized: cleanContent, isClean } = sanitizeScamInput(content);
+
+    if (!isClean) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: "PII_REDACTION_REQUIRED",
+            message:
+              "Konten masih mengandung data pribadi yang belum dapat disamarkan dengan aman. Hapus nama, alamat, email, nomor telepon, dan nomor identitas lalu coba lagi.",
+          },
+        } satisfies ApiError,
+        { status: 422 }
+      );
+    }
+
+    const cleanCompanyName =
+      typeof company_name === "string" && company_name.trim().length > 0
+        ? sanitizeAIInput(company_name, 120)
+        : null;
 
     // 4. AI Analysis
     let analysisResult;
@@ -94,7 +113,15 @@ export async function POST(request: Request) {
       const aiResponse = await callAI(
         [
           { role: "system", content: SCAM_DETECTION_PROMPT },
-          { role: "user", content: buildScamPrompt(cleanContent, company_name) },
+          {
+            role: "user",
+            content: buildScamPrompt(
+              cleanContent,
+              cleanCompanyName && !cleanCompanyName.blocked
+                ? cleanCompanyName.sanitized
+                : undefined
+            ),
+          },
         ],
         { jsonMode: true, temperature: 0.1 }
       );
