@@ -20,7 +20,7 @@ sentry_sdk.init(
 )
 
 app = FastAPI(title="SafeWallet V3 Worker API")
-Instrumentator().instrument(app).bootstrap()
+Instrumentator().instrument(app).expose(app)
 
 # Redis & RQ
 redis_conn = Redis(
