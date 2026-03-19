@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ShieldCheck, Database, Lock, UserCheck } from "lucide-react";
@@ -33,7 +31,7 @@ export default function PrivacyPolicyPage() {
           <div className="prose prose-invert prose-emerald max-w-none text-white/70 leading-relaxed font-light text-base md:text-lg">
             
             <p className="font-medium text-white/90">
-              Platform SafeWallet ("kami", "milik kami", atau "SafeWallet") menghormati privasi Anda dan berkomitmen teguh untuk melindungi data pribadi dan informasi finansial Anda. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, memproses, dan melindungi informasi Anda sejalan dengan **Undang-Undang Pelindungan Data Pribadi (UU PDP)** Republik Indonesia.
+              Platform SafeWallet (&quot;kami&quot;, &quot;milik kami&quot;, atau &quot;SafeWallet&quot;) menghormati privasi Anda dan berkomitmen teguh untuk melindungi data pribadi dan informasi finansial Anda. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, memproses, dan melindungi informasi Anda sejalan dengan **Undang-Undang Pelindungan Data Pribadi (UU PDP)** Republik Indonesia.
             </p>
 
             <h2 className="text-2xl font-bold text-white mt-12 mb-4 flex items-center gap-3">
@@ -45,7 +43,7 @@ export default function PrivacyPolicyPage() {
             <ul className="list-disc pl-6 space-y-2 mt-4 marker:text-[#F2A971]">
               <li><strong>Informasi Dasar:</strong> Saat mendaftar via email (Magic Link) atau OAuth, kami menyimpan nama dan alamat email. Nomor ponsel (Telegram/WhatsApp) bersifat opsional.</li>
               <li><strong>Data Mutasi Finansial (Zero-Retention Pattern):</strong> File PDF mutasi bank atau screenshot yang Anda unggah ke sistem Health Scanner diproses sementara hanya pada Random Access Memory (RAM) server tersandikan (End-to-End Encryption). File Asli (Raw File) tersebut <strong>TIDAK PERNAH DISIMPAN</strong> ke dalam database kami.</li>
-              <li><strong>Data Turunan:</strong> Kami hanya menyimpan hasil analisis berbentuk matriks kategori JSON (misal: "Pemasukan", "Pengeluaran Cicilan") untuk tujuan kalkulasi <em>Health Score</em> dan <em>Debt-to-Income Ratio</em>.</li>
+              <li><strong>Data Turunan:</strong> Kami hanya menyimpan hasil analisis berbentuk matriks kategori JSON (misal: &quot;Pemasukan&quot;, &quot;Pengeluaran Cicilan&quot;) untuk tujuan kalkulasi <em>Health Score</em> dan <em>Debt-to-Income Ratio</em>.</li>
             </ul>
 
             <h2 className="text-2xl font-bold text-white mt-12 mb-4 flex items-center gap-3">
@@ -67,8 +65,8 @@ export default function PrivacyPolicyPage() {
               Sejalan dengan regulasi perlindungan data yang berlaku, Anda memegang otonomi mutlak atas jejak digital Anda di SafeWallet:
             </p>
             <ol className="list-decimal pl-6 space-y-2 mt-4 marker:text-[#F2A971] font-medium text-white/80">
-              <li><strong>Hak Akses (Right to Access):</strong> Anda berhak mendapatkan salinan data yang Anda berikan. Anda dapat menggunakan fitur "Unduh Rekam Jejak (JSON)" di menu Profil.</li>
-              <li><strong>Hak Penghapusan (Right to Erasure/Right to be Forgotten):</strong> Anda dapat menghapus akun beserta seluruh data mutasi, analisis AI, dan kredensial seketika langsung melalui menu Pengaturan Profil kami (Fitur "Hapus Akun Permanen"). Data Anda akan dibersihkan dari server dalam rentang 1-30 hari sesuai protokol sistem.</li>
+              <li><strong>Hak Akses (Right to Access):</strong> Anda berhak mendapatkan salinan data yang Anda berikan. Anda dapat menggunakan fitur &quot;Unduh Rekam Jejak (JSON)&quot; di menu Profil.</li>
+              <li><strong>Hak Penghapusan (Right to Erasure/Right to be Forgotten):</strong> Anda dapat menghapus akun beserta seluruh data mutasi, analisis AI, dan kredensial seketika langsung melalui menu Pengaturan Profil kami (Fitur &quot;Hapus Akun Permanen&quot;). Data Anda akan dibersihkan dari server dalam rentang 1-30 hari sesuai protokol sistem.</li>
               <li><strong>Hak Perbaikan (Right to Rectification):</strong> Pilihan untuk merevisi preferensi Telegram Bot dan gaji bulanan Anda kapan saja.</li>
             </ol>
 

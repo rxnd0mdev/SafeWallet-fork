@@ -5,7 +5,7 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useState,
+  useSyncExternalStore,
 } from "react";
 import {
   detectBrowserLocale,
@@ -23,6 +23,8 @@ type LanguageContextValue = {
 
 const LANGUAGE_STORAGE_KEY = "safewallet.locale";
 const LANGUAGE_COOKIE_KEY = "safewallet-locale";
+const DEFAULT_LOCALE: Locale = "id";
+const subscribers = new Set<() => void>();
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
@@ -30,7 +32,7 @@ function getStoredLocale(): Locale | null {
   if (typeof window === "undefined") return null;
 
   const stored = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
-  if (stored === "id" || stored === "en") {
+  if (isSupportedLocale(stored)) {
     return stored;
   }
 
@@ -42,28 +44,63 @@ function getStoredLocale(): Locale | null {
   return isSupportedLocale(cookie) ? cookie : null;
 }
 
+function readLocaleSnapshot(): Locale {
+  return getStoredLocale() ?? detectBrowserLocale();
+}
+
+function subscribe(onStoreChange: () => void) {
+  subscribers.add(onStoreChange);
+
+  if (typeof window === "undefined") {
+    return () => {
+      subscribers.delete(onStoreChange);
+    };
+  }
+
+  const handleStorage = (event: StorageEvent) => {
+    if (event.key === null || event.key === LANGUAGE_STORAGE_KEY) {
+      onStoreChange();
+    }
+  };
+
+  window.addEventListener("storage", handleStorage);
+
+  return () => {
+    subscribers.delete(onStoreChange);
+    window.removeEventListener("storage", handleStorage);
+  };
+}
+
+function persistLocale(locale: Locale) {
+  document.documentElement.lang = locale;
+  document.cookie = `${LANGUAGE_COOKIE_KEY}=${locale}; path=/; max-age=31536000; SameSite=Lax`;
+  window.localStorage.setItem(LANGUAGE_STORAGE_KEY, locale);
+}
+
+function setLocaleSnapshot(locale: Locale) {
+  persistLocale(locale);
+  subscribers.forEach((listener) => listener());
+}
+
 export function LanguageProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [locale, setLocaleState] = useState<Locale>("id");
+  const locale = useSyncExternalStore(
+    subscribe,
+    readLocaleSnapshot,
+    () => DEFAULT_LOCALE
+  );
 
   useEffect(() => {
-    const storedLocale = getStoredLocale();
-    setLocaleState(storedLocale ?? detectBrowserLocale());
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.lang = locale;
-    document.cookie = `${LANGUAGE_COOKIE_KEY}=${locale}; path=/; max-age=31536000; SameSite=Lax`;
-    window.localStorage.setItem(LANGUAGE_STORAGE_KEY, locale);
+    persistLocale(locale);
   }, [locale]);
 
   const value = useMemo(
     () => ({
       locale,
-      setLocale: setLocaleState,
+      setLocale: setLocaleSnapshot,
       messages: allMessages[locale],
     }),
     [locale]

@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { PlausibleAnalytics } from "@/components/analytics";
-import { LanguageProvider } from "@/components/language-provider";
 import "./globals.css";
 import { LenisProvider } from "@/components/lenis-provider";
 const geistSans = Geist({
@@ -62,13 +61,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
       >
-        <LanguageProvider>
-          <LenisProvider>
-            {children}
-            <Toaster position="top-right" richColors />
-            <PlausibleAnalytics />
-          </LenisProvider>
-        </LanguageProvider>
+        <LenisProvider>
+          {children}
+          <Toaster position="top-right" richColors />
+          <PlausibleAnalytics />
+        </LenisProvider>
       </body>
     </html>
   );

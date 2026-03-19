@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Scale, AlertOctagon, FileText, CheckCircle2 } from "lucide-react";
@@ -50,7 +48,7 @@ export default function TermsOfServicePage() {
               SafeWallet DAN BOT TELEGRAM (@SakuSafeBot) BUKANLAH PENASIHAT KEUANGAN TERDAFTAR (LICENSED FINANCIAL ADVISOR) ATAU LEMBAGA HUKUM.
             </div>
             <ul className="list-disc pl-6 space-y-2 marker:text-[#3323D2]">
-              <li>Segala bentuk <em>Health Score</em>, rekomendasi, algoritma *Debt Snowball*, dan pengkategorian "Aman/Hati-hati/Berbahaya" hanya bersifat edukasi (<em>informational and educational purposes only</em>).</li>
+              <li>Segala bentuk <em>Health Score</em>, rekomendasi, algoritma *Debt Snowball*, dan pengkategorian &quot;Aman/Hati-hati/Berbahaya&quot; hanya bersifat edukasi (<em>informational and educational purposes only</em>).</li>
               <li>SafeWallet tidak menjamin keakuratan absolut 100% dari analisis bot. Semua keputusan finansial yang Anda buat berdasarkan instrumen SafeWallet sepenuhnya ada di tangan dan risiko Anda sendiri.</li>
               <li>Platform ini berintegrasi dengan pihak/sistem eksternal seperti OJK (Otoritas Jasa Keuangan) Scrapping API dan Generative AI. SafeWallet lepas tangan apabila terdapat gangguan layanan dari pihak ke-tiga tersebut.</li>
             </ul>

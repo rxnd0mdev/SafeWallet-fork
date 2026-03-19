@@ -3,7 +3,7 @@
 import { useRef, useEffect } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { useLocale } from "@/components/language-provider";
+import { LanguageProvider, useLocale } from "@/components/language-provider";
 import { Shield, Sparkles, ArrowRight, Server, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -13,7 +13,7 @@ const ScrollVelocity = dynamic(() => import("@/components/scroll-velocity"), { s
 const CircularGallery = dynamic(() => import("@/components/circular-gallery"), { ssr: false });
 const FlowingMenu = dynamic(() => import("@/components/flowing-menu"), { ssr: false });
 
-export default function LandingPage() {
+function LandingPageContent() {
   const { messages } = useLocale();
   const copy = messages.landing;
   const containerRef = useRef<HTMLDivElement>(null);
@@ -44,7 +44,7 @@ export default function LandingPage() {
 
   useEffect(() => {
     // Client-Side Only GSAP Engine Injection
-    let ctx: any;
+    let ctx: { revert: () => void } | undefined;
     
     (async () => {
       try {
@@ -880,5 +880,13 @@ export default function LandingPage() {
          />
       </footer>
     </div>
+  );
+}
+
+export default function LandingPage() {
+  return (
+    <LanguageProvider>
+      <LandingPageContent />
+    </LanguageProvider>
   );
 }
